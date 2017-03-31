@@ -50,19 +50,14 @@ namespace TechJobs.Controllers
                 Job newJob = new Job
                 {
                     Name = newJobViewModel.Name,
-                    //Employer = newJobViewModel
                     Employer = new Employer(newJobViewModel.Employers.FirstOrDefault(id => id.Value == newJobViewModel.EmployerID.ToString()).Text),
                     Location = new Location(newJobViewModel.Locations.FirstOrDefault(id => id.Value == newJobViewModel.LocationId.ToString()).Text),
 
                     CoreCompetency = new CoreCompetency(newJobViewModel.CoreCompetencies.FirstOrDefault(id => id.Value == newJobViewModel.CoreCompetencyId.ToString()).Text),
                     PositionType = new PositionType(newJobViewModel.PositionTypes.FirstOrDefault(id => id.Value == newJobViewModel.PositionTypeId.ToString()).Text)
-                    //CoreCompetency = newJobViewModel.CoreCompetency,
-                    //PositionType = newJobViewModel.PositionType
-
                 };
                 jobData.Jobs.Add(newJob);
 
-                //return RedirectToAction("Index", new { id = newJobs.ID });
                 return RedirectToAction("Index", new { id = newJob.ID });
 
             }
