@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using TechJobs.Data;
+using TechJobs.Models;
 using TechJobs.ViewModels;
-
+using System.Linq;
 namespace TechJobs.Controllers
 {
     public class JobController : Controller
@@ -19,8 +21,15 @@ namespace TechJobs.Controllers
         public IActionResult Index(int id)
         {
             // TODO #1 - get the Job with the given ID and pass it into the view
+            Job job = jobData.Find(id);
+            //DisplayJobViewModel viewModel = new DisplayJobViewModel(job);
+            return View(job);
+            
+        }
 
-            return View();
+        private void Find(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public IActionResult New()
@@ -30,12 +39,33 @@ namespace TechJobs.Controllers
         }
 
         [HttpPost]
+      
         public IActionResult New(NewJobViewModel newJobViewModel)
         {
             // TODO #6 - Validate the ViewModel and if valid, create a 
             // new Job and add it to the JobData data store. Then
             // redirect to the Job detail (Index) action/view for the new Job.
+            if (ModelState.IsValid)
+            {
+                Job newJob = new Job
+                {
+                    Name = newJobViewModel.Name,
+                    //Employer = newJobViewModel
+                    Employer = new Employer(newJobViewModel.Employers.FirstOrDefault(id => id.Value == newJobViewModel.EmployerID.ToString()).Text),
+                    Location = new Location(newJobViewModel.Locations.FirstOrDefault(id => id.Value == newJobViewModel.LocationId.ToString()).Text),
 
+                    CoreCompetency = new CoreCompetency(newJobViewModel.CoreCompetencies.FirstOrDefault(id => id.Value == newJobViewModel.CoreCompetencyId.ToString()).Text),
+                    PositionType = new PositionType(newJobViewModel.PositionTypes.FirstOrDefault(id => id.Value == newJobViewModel.PositionTypeId.ToString()).Text)
+                    //CoreCompetency = newJobViewModel.CoreCompetency,
+                    //PositionType = newJobViewModel.PositionType
+
+                };
+                jobData.Jobs.Add(newJob);
+
+                //return RedirectToAction("Index", new { id = newJobs.ID });
+                return RedirectToAction("Index", new { id = newJob.ID });
+
+            }
             return View(newJobViewModel);
         }
     }

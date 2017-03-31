@@ -8,5 +8,13 @@ namespace TechJobs.Models
     public class PositionType : JobField
     {
         // No additional members yet. See JobField.cs
+        public PositionType()
+        {
+
+        }
+        public PositionType(string value):base(value)
+        {
+
+        }
     }
 }
