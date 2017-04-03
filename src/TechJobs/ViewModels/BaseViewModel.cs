@@ -9,10 +9,10 @@ namespace TechJobs.ViewModels
     public class BaseViewModel
     {
         // The column to search, defaults to all
-        public JobFieldType Column { get; set; } //= JobFieldType.All;
+        public virtual JobFieldType Column { get; set; } //= JobFieldType.All;
 
         // All columns, for display
-        public List<JobFieldType> Columns { get; set; }
+        public  List<JobFieldType> Columns { get; set; }
 
         // View title
         public string Title { get; set; } = "";
